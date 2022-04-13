@@ -5,12 +5,18 @@
       <map>
         <entry key="..\:/Projects/news-app/app/src/main/res/drawable/ic_news_icon.xml" value="0.153" />
         <entry key="..\:/Projects/news-app/app/src/main/res/drawable/rounded_filter.xml" value="0.209" />
+        <entry key="..\:/Projects/news-app/app/src/main/res/drawable/rounded_filter_white.xml" value="0.1555" />
+        <entry key="..\:/Projects/news-app/app/src/main/res/drawable/rounded_news_title.xml" value="0.1555" />
+        <entry key="..\:/Projects/news-app/app/src/main/res/drawable/rounded_search.xml" value="0.209" />
+        <entry key="..\:/Projects/news-app/app/src/main/res/drawable/rounded_top.xml" value="0.1555" />
         <entry key="..\:/Projects/news-app/app/src/main/res/layout/activity_main.xml" value="0.10925925925925926" />
-        <entry key="..\:/Projects/news-app/app/src/main/res/layout/fragment_dashboard.xml" value="0.1" />
+        <entry key="..\:/Projects/news-app/app/src/main/res/layout/fragment_dashboard.xml" value="0.2" />
         <entry key="..\:/Projects/news-app/app/src/main/res/layout/fragment_news_detail.xml" value="0.264" />
+        <entry key="..\:/Projects/news-app/app/src/main/res/layout/fragment_search.xml" value="0.25" />
         <entry key="..\:/Projects/news-app/app/src/main/res/layout/item_filter.xml" value="0.264" />
         <entry key="..\:/Projects/news-app/app/src/main/res/layout/item_headline_layout.xml" value="0.25" />
-        <entry key="..\:/Projects/news-app/app/src/main/res/layout/item_news_layout.xml" value="0.12158054711246201" />
+        <entry key="..\:/Projects/news-app/app/src/main/res/layout/item_news_layout.xml" value="0.176" />
+        <entry key="..\:/Projects/news-app/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25" />
         <entry key="..\:/Users/User/AndroidStudioProjects/NewsApp/app/src/main/res/layout/activity_main.xml" value="0.1" />
       </map>
     </option>
