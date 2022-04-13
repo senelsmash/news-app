@@ -1,6 +1,6 @@
 package com.eyepax.newsapp.network
 
-import com.eyepax.newsapp.AppConstant
+import com.eyepax.newsapp.AppConstant.Companion.API_KEY
 import com.eyepax.newsapp.model.NewsResponse
 import retrofit2.Response
 import retrofit2.http.GET
@@ -13,6 +13,14 @@ interface NewsApiService {
         @Query("country")
         countryCode: String = "us",
         @Query("apiKey")
-        apiKey: String = AppConstant.API_KEY
+        apiKey: String = API_KEY
+    ): Response<NewsResponse>
+
+    @GET("v2/everything")
+    suspend fun getFilterNews(
+        @Query("q")
+        filter: String,
+        @Query("apiKey")
+        apiKey: String = API_KEY
     ): Response<NewsResponse>
 }

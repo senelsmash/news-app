@@ -43,18 +43,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <com.google.android.material.chip.ChipGroup
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/rvTopHeadlines"
         app:layout_constraintBottom_toTopOf="@id/rvNewsList"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/chipFilter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:padding="@dimen/padding"
-        app:layout_constraintTop_toBottomOf="@+id/chipFilter"
+        app:layout_constraintTop_toBottomOf="@+id/rvFilter"
         app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/rvNewsList"
         android:layout_width="match_parent"
