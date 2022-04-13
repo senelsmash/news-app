@@ -46,7 +46,8 @@
                         android:layout_height="wrap_content"
                         android:text="Title here"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_large"
+                        android:textSize="@dimen/text_medium"
+                        android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -58,6 +59,7 @@
                         android:layout_height="wrap_content"
                         android:text="Matt william"
                         android:textColor="@color/white"
+                        android:textSize="@dimen/text_medium"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
 
@@ -67,6 +69,7 @@
                         android:layout_height="wrap_content"
                         android:text="Sunday 9 may 2021"
                         android:textColor="@color/white"
+                        android:textSize="@dimen/text_medium"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent" />
 

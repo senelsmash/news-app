@@ -25,7 +25,7 @@ class FilterAdapter : RecyclerView.Adapter<FilterAdapter.FilterViewHolder>() {
         }
     }
 
-    val differ = AsyncListDiffer(this, differCallback)
+    var differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilterViewHolder {
         return FilterViewHolder(
@@ -45,10 +45,25 @@ class FilterAdapter : RecyclerView.Adapter<FilterAdapter.FilterViewHolder>() {
 
     override fun onBindViewHolder(holder: FilterViewHolder, position: Int) {
         val filter = differ.currentList[position]
+
         holder.itemView.apply {
+            if(filter.isSelected) {
+                filter.isSelected = false
+                tvFilter.setTextColor(resources.getColor(R.color.white))
+                tvFilter.background = resources.getDrawable(R.drawable.rounded_filter)
+            } else {
+                tvFilter.setTextColor(resources.getColor(R.color.text_black))
+                tvFilter.background = resources.getDrawable(R.drawable.rounded_filter_white)
+            }
             tvFilter.text = filter.filterName
             setOnClickListener {
-                onItemClickListener?.let { it(filter) }
+                onItemClickListener?.let {
+                    filter.isSelected = true
+                    notifyDataSetChanged()
+                    tvFilter.setTextColor(resources.getColor(R.color.white))
+                    tvFilter.background = resources.getDrawable(R.drawable.rounded_filter)
+                    it(filter)
+                }
             }
         }
     }

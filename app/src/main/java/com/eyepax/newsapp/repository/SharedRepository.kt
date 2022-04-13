@@ -4,7 +4,7 @@ import com.eyepax.newsapp.model.Filter
 import com.eyepax.newsapp.network.NewsApiService
 import javax.inject.Inject
 
-class DashboardRepository @Inject constructor(
+class SharedRepository @Inject constructor(
     private val newsApi: NewsApiService
 ) {
 
@@ -13,7 +13,7 @@ class DashboardRepository @Inject constructor(
 
     fun getFilterList(): MutableList<Filter> {
         val filterList: MutableList<Filter> = emptyArray<Filter>().toMutableList()
-        filterList.add(Filter(1, "Healthy"))
+        filterList.add(Filter(1, "Healthy", true))
         filterList.add(Filter(1, "Technology"))
         filterList.add(Filter(1, "Finance"))
         filterList.add(Filter(1, "Arts"))
@@ -22,6 +22,9 @@ class DashboardRepository @Inject constructor(
     }
 
     suspend fun getFilterNews(filterType: String) =
-        newsApi.getFilterNews(filterType)
+        newsApi.getFilterNews(filter = filterType)
+
+    suspend fun getFilterNews(searchQuery: String, sortBy: String, pageNumber: Int) =
+        newsApi.getFilterNews(filter = searchQuery, sortBy = sortBy, pageNumber = pageNumber)
 
 }

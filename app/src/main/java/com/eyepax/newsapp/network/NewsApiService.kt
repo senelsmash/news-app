@@ -20,6 +20,10 @@ interface NewsApiService {
     suspend fun getFilterNews(
         @Query("q")
         filter: String,
+        @Query("page")
+        pageNumber: Int = 1,
+        @Query("sortBy")
+        sortBy: String = "popularity",
         @Query("apiKey")
         apiKey: String = API_KEY
     ): Response<NewsResponse>

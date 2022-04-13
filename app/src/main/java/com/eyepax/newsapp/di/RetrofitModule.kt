@@ -2,7 +2,7 @@ package com.eyepax.newsapp.di
 
 import com.eyepax.newsapp.AppConstant.Companion.BASE_URL
 import com.eyepax.newsapp.network.NewsApiService
-import com.eyepax.newsapp.repository.DashboardRepository
+import com.eyepax.newsapp.repository.SharedRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,8 +35,8 @@ object RetrofitModule {
             .create(NewsApiService::class.java)
     }
 
-    fun provideDashboardRepository(api: NewsApiService): DashboardRepository {
-        return DashboardRepository(api)
+    fun provideDashboardRepository(api: NewsApiService): SharedRepository {
+        return SharedRepository(api)
     }
 
 

@@ -39,6 +39,7 @@
                     android:layout_height="match_parent">
 
                     <TextView
+                        android:textSize="@dimen/text_small"
                         android:textColor="@color/white"
                         android:text="sample text her for testing content"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -49,6 +50,7 @@
                         android:layout_height="wrap_content" />
 
                     <TextView
+                        android:textStyle="bold"
                         android:textColor="@color/white"
                         android:id="@+id/tvHeadlineTitle"
                         android:textSize="@dimen/text_large"
@@ -61,9 +63,9 @@
                         android:text="Title here" />
 
                     <TextView
+                        android:textSize="@dimen/text_small"
                         android:textColor="@color/white"
                         android:id="@+id/tvAuthor"
-                        android:textSize="@dimen/text_small"
                         app:layout_constraintBottom_toTopOf="@+id/tvHeadlineTitle"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:layout_width="match_parent"

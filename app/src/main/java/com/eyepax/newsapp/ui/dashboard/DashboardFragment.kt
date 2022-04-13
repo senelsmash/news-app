@@ -32,8 +32,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         mViewModel.getTopHeadlines("us")
         mViewModel.getFilterList()
         mViewModel.getFilteredList("Healthy")
-        subscribeObservers()
         setupRecyclerView()
+        subscribeObservers()
         headlineAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
                 putSerializable("article", it)
@@ -56,6 +56,13 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
         filterAdapter.setOnItemClickListener {
             mViewModel.getFilteredList(it.filterName)
+        }
+
+        etSearchView.isFocusable = false
+        searchContainer.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_navigation_dashboard_to_searchFragment
+            )
         }
 
     }

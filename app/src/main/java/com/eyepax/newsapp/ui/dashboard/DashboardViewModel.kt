@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.eyepax.newsapp.model.Filter
 import com.eyepax.newsapp.model.NewsResponse
 import com.eyepax.newsapp.utils.Resource
-import com.eyepax.newsapp.repository.DashboardRepository
+import com.eyepax.newsapp.repository.SharedRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
-    private val repository: DashboardRepository
+    private val repository: SharedRepository
 ) : ViewModel() {
 
     val topHeadlines: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
