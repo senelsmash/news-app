@@ -3,20 +3,61 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.dashboard.DashboardFragment">
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/etSearchView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ivNotification"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:src="@drawable/ic_notification"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/ivNotification"
+        android:layout_width="@dimen/notification"
+        android:layout_height="@dimen/notification"/>
 
     <TextView
-        android:id="@+id/text_dashboard"
+        android:id="@+id/tvLatestNews"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textAlignment="textStart"
+        android:text="@string/latest_news"
+        android:textSize="@dimen/text_large"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/etSearchView" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:padding="@dimen/padding"
+        app:layout_constraintTop_toBottomOf="@+id/tvLatestNews"
+        android:id="@+id/rvTopHeadlines"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.chip.ChipGroup
+        app:layout_constraintTop_toBottomOf="@id/rvTopHeadlines"
+        app:layout_constraintBottom_toTopOf="@id/rvNewsList"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/chipFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:padding="@dimen/padding"
+        app:layout_constraintTop_toBottomOf="@+id/chipFilter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/rvNewsList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

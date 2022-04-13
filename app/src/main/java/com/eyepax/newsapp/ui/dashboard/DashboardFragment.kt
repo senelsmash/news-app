@@ -1,42 +1,73 @@
 package com.eyepax.newsapp.ui.dashboard
 
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.eyepax.newsapp.databinding.FragmentDashboardBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.eyepax.newsapp.R
+import com.eyepax.newsapp.ui.adapter.HeadlinesAdapter
+import com.eyepax.newsapp.utils.Resource
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.fragment_dashboard.*
 
-class DashboardFragment : Fragment() {
+@AndroidEntryPoint
+class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
-    private var _binding: FragmentDashboardBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
-
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-        return root
+    private lateinit var headlineAdapter: HeadlinesAdapter
+    private val mViewModel by lazy {
+        ViewModelProvider(requireActivity()).get(DashboardViewModel::class.java)
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        mViewModel.getTopHeadlines("us")
+        subscribeObservers()
+        setupRecyclerView()
+        headlineAdapter.setOnItemClickListener {
+
+        }
+    }
+
+    private fun setupRecyclerView() {
+        headlineAdapter = HeadlinesAdapter()
+        rvTopHeadlines.apply {
+            adapter = headlineAdapter
+            layoutManager = LinearLayoutManager(
+                activity, LinearLayoutManager.HORIZONTAL, false
+            )
+        }
+    }
+
+    private fun subscribeObservers() {
+        mViewModel.topHeadlines.observe(viewLifecycleOwner, Observer { response ->
+            when (response) {
+                is Resource.Success -> {
+                    response.data?.let { headlineResponse ->
+                        Log.d(TAG, "subscribeObservers: ${headlineResponse.articles.size}")
+                        headlineAdapter.differ.submitList(headlineResponse.articles.toList())
+                    }
+                }
+                is Resource.Error -> {
+//                    hideprogressBar()
+                    response.message?.let { message ->
+                        Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_LONG)
+                            .show()
+//                        showErrorMessage(message)
+                    }
+                }
+                is Resource.Loading -> {
+//                    showProgressBar()
+                }
+            }
+
+        })
+    }
+
+    companion object {
+        const val TAG = "DashboardFragment"
     }
 }
