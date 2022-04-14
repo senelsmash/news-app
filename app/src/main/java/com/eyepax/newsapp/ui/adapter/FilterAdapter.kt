@@ -55,7 +55,7 @@ class FilterAdapter : RecyclerView.Adapter<FilterAdapter.FilterViewHolder>() {
                 tvFilter.setTextColor(resources.getColor(R.color.text_black))
                 tvFilter.background = resources.getDrawable(R.drawable.rounded_filter_white)
             }
-            tvFilter.text = filter.filterName
+            tvFilter.text = filter.categoryName
             setOnClickListener {
                 onItemClickListener?.let {
                     filter.isSelected = true

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/padding"
+    tools:context=".ui.profile.ProfileFragment">
+
+    <androidx.cardview.widget.CardView
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/territory"
+        app:cardCornerRadius="8dp"
+        android:id="@+id/cardProfile"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/card_height">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:padding="@dimen/padding_medium"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_marginTop="@dimen/padding_medium"
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/tvLblFirstName"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/first_name"/>
+            <TextView
+                app:layout_constraintTop_toBottomOf="@id/tvLblFirstName"
+                android:id="@+id/tvFirstName"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/first_name"/>
+
+            <TextView
+                android:layout_marginTop="@dimen/padding_medium"
+                app:layout_constraintTop_toBottomOf="@+id/tvFirstName"
+                android:id="@+id/tvLblLastName"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/last_name"/>
+            <TextView
+                app:layout_constraintTop_toBottomOf="@id/tvLblLastName"
+                android:id="@+id/tvLastName"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/first_name"/>
+
+            <TextView
+                android:layout_marginTop="@dimen/padding_medium"
+                app:layout_constraintTop_toBottomOf="@+id/tvLastName"
+                android:id="@+id/tvLblUsername"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/username"/>
+            <TextView
+                app:layout_constraintTop_toBottomOf="@id/tvLblUsername"
+                android:id="@+id/tvUsername"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/first_name"/>
+
+
+            <TextView
+                android:layout_marginTop="@dimen/padding_medium"
+                app:layout_constraintTop_toBottomOf="@+id/tvUsername"
+                android:id="@+id/tvlblEmail"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/email_address"/>
+            <TextView
+                app:layout_constraintTop_toBottomOf="@id/tvlblEmail"
+                android:id="@+id/tvEmail"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/first_name"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

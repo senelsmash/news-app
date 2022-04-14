@@ -3,10 +3,8 @@ package com.eyepax.newsapp.ui.search
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.eyepax.newsapp.model.Article
 import com.eyepax.newsapp.model.Filter
 import com.eyepax.newsapp.model.NewsResponse
-import com.eyepax.newsapp.repository.FavoriteRepository
 import com.eyepax.newsapp.repository.SharedRepository
 import com.eyepax.newsapp.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -47,18 +45,20 @@ class SearchViewModel @Inject constructor(
     private fun requestFilterResponse(response: Response<NewsResponse>): Resource<NewsResponse> {
         if (response.isSuccessful) {
             response.body()?.let { filteredResponse ->
-                page++
-                if (filterNewsResponse == null) {
-                    filterNewsResponse = filteredResponse
-                } else {
-                    if(isClearPreviousData) {
-                        filterNewsResponse?.articles?.clear()
+                    page++
+                    if (filterNewsResponse == null) {
+                        filterNewsResponse = filteredResponse
+                    } else {
+                        if(isClearPreviousData) {
+                            filterNewsResponse?.articles?.clear()
+                        }
+                        val oldArticles = filterNewsResponse?.articles
+                        val newArticles = filteredResponse.articles
+                        oldArticles?.addAll(newArticles)
                     }
-                    val oldArticles = filterNewsResponse?.articles
-                    val newArticles = filteredResponse.articles
-                    oldArticles?.addAll(newArticles)
-                }
-                return Resource.Success(filterNewsResponse ?: filteredResponse)
+                    return Resource.Success(filterNewsResponse ?: filteredResponse)
+
+
             }
         }
         return Resource.Error(response.message())

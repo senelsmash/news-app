@@ -29,10 +29,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.eyepax.newsapp.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_profile"
+        android:name="com.eyepax.newsapp.ui.profile.ProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/newsDetailFragment"
         android:name="com.eyepax.newsapp.ui.detail.NewsDetailFragment"

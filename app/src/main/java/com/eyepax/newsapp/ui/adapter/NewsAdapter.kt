@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.eyepax.newsapp.R
 import com.eyepax.newsapp.model.Article
+import com.eyepax.newsapp.utils.Helper
 import kotlinx.android.synthetic.main.item_news_layout.view.*
 
 class NewsAdapter: RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
@@ -49,7 +50,7 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
             Glide.with(this).load(article.urlToImage).into(ivHeadlineImage)
             tvAuthor.text = article.author
             tvHeadlineTitle.text = article.title
-            tvDate.text = article.publishedAt
+            tvDate.text = article.publishedAt?.let { Helper.getTimeFromZTime(it) }
             setOnClickListener {
                 onItemClickListener?.let { it(article) }
             }

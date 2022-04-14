@@ -25,4 +25,10 @@
     <string name="reset">Reset</string>
     <string name="sortby">Sort by</string>
     <string name="save">save</string>
+    <string name="Montserrat_Light">Montserrat-Light</string>
+    <string name="Montserrat_Medium">Montserrat-Medium</string>
+    <string name="Montserrat_Regular">Montserrat-Regular</string>
+    <string name="Montserrat_SemiBold">Montserrat-SemiBold</string>
+    <string name="USER_NOT_FOUND">User not found.</string>
+    <string name="profile">Profile</string>
 </resources>

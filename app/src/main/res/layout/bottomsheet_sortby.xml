@@ -85,6 +85,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Following" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipPopularity"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="popularity" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipPublishedAt"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="publishedAt" />
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipRelevance"
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="relevancy" />
         </com.google.android.material.chip.ChipGroup>
 
         <com.google.android.material.button.MaterialButton

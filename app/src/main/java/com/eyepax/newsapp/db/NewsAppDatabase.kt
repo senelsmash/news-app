@@ -6,16 +6,18 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.eyepax.newsapp.model.Article
+import com.eyepax.newsapp.model.User
 
 @Database(
 
-    entities = [Article::class],
+    entities = [Article::class, User::class],
     version = 1
 )
 @TypeConverters(Converters::class)
 abstract class NewsAppDatabase: RoomDatabase() {
 
     abstract fun getArticleDao(): ArticleDao
+    abstract fun getUserDao(): UserDao
 
     companion object {
         @Volatile

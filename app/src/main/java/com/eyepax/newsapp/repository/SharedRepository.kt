@@ -13,16 +13,21 @@ class SharedRepository @Inject constructor(
 
     fun getFilterList(): MutableList<Filter> {
         val filterList: MutableList<Filter> = emptyArray<Filter>().toMutableList()
-        filterList.add(Filter(1, "Healthy", true))
-        filterList.add(Filter(1, "Technology"))
-        filterList.add(Filter(1, "Finance"))
-        filterList.add(Filter(1, "Arts"))
-        filterList.add(Filter(1, "Environment"))
+        filterList.add(Filter(1, "health", true))
+        filterList.add(Filter(1, "entertainment"))
+        filterList.add(Filter(1, "general"))
+        filterList.add(Filter(1, "business"))
+        filterList.add(Filter(1, "science"))
+        filterList.add(Filter(1, "sports"))
+        filterList.add(Filter(1, "technology"))
         return filterList
     }
 
     suspend fun getFilterNews(filterType: String) =
         newsApi.getFilterNews(filter = filterType)
+
+    suspend fun getNewsByCategory(category: String, page: Int = 1) =
+        newsApi.getByCategory(category = category, pageNumber = page)
 
     suspend fun getFilterNews(searchQuery: String, sortBy: String, pageNumber: Int) =
         newsApi.getFilterNews(filter = searchQuery, sortBy = sortBy, pageNumber = pageNumber)

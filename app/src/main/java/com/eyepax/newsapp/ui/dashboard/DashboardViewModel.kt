@@ -30,9 +30,9 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    fun getFilteredList(filterType: String) {
+    fun getNewsByCategory(category: String) {
         viewModelScope.launch {
-            safeFilterNews(filterType)
+            safeCategoryNews(category)
         }
     }
 
@@ -48,7 +48,7 @@ class DashboardViewModel @Inject constructor(
                 return Resource.Success(topHeadlinesResponse ?: headlinesResponse)
             }
         }
-        return Resource.Error(response.message())
+        return Resource.Error(message = response.message())
     }
 
     private suspend fun safeTopHeadlinesCall(countryCode: String) {
@@ -57,20 +57,21 @@ class DashboardViewModel @Inject constructor(
         topHeadlines.postValue(requestTopHeadlinesResponse(response))
     }
 
-    private suspend fun safeFilterNews(filterType: String) {
+    private suspend fun safeCategoryNews(category: String) {
         filterNews.postValue(Resource.Loading())
-        val response = repository.getFilterNews(filterType)
-        filterNews.postValue(requestFilterResponse(response))
+        val response = repository.getNewsByCategory(category = category)
+        filterNews.postValue(requestCategoryNewsResponse(response))
     }
 
-    private fun requestFilterResponse(response: Response<NewsResponse>): Resource<NewsResponse> {
+    private fun requestCategoryNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse> {
         if (response.isSuccessful) {
             response.body()?.let { filteredResponse ->
                 filterNewsResponse = filteredResponse
                 return Resource.Success(filteredResponse)
             }
         }
-        return Resource.Error(response.message())
+
+        return Resource.Error(response.errorBody().toString())
     }
 
 

@@ -134,8 +134,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
         filterAdapter.setOnItemClickListener {
             mViewModel.isClearPreviousData = true
-            mViewModel.getFilteredList(it.filterName)
-            mSearchedQuery = it.filterName
+            mViewModel.getFilteredList(it.categoryName)
+            mSearchedQuery = it.categoryName
         }
 
         tvFilter.setOnClickListener {
@@ -216,20 +216,31 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private fun showBottomSheetForSort() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
+        var isReset = false
         val parentView = layoutInflater.inflate(R.layout.bottomsheet_sortby, null)
         bottomSheetDialog.setContentView(parentView)
+        val checkedChipId = mSelectedFilterMap[mSelectedFilter] ?: 0
+        if (checkedChipId != 0) parentView.findViewById<Chip>(
+            mSelectedFilterMap[mSelectedFilter] ?: 0
+        ).isChecked = true
+
         parentView.chipGroup.setOnCheckedChangeListener { group, checkedId ->
-            val chip = parentView.findViewById<Chip>(checkedId)
-            if(chip.isChecked){
-                mSelectedFilter = chip.text.toString()
-                mSelectedFilterMap.clear()
-                mSelectedFilterMap[mSelectedFilter] = checkedId
+            if (!isReset) {
+                val chip = parentView.findViewById<Chip>(checkedId)
+                if (chip.isChecked) {
+                    mSelectedFilter = chip.text.toString()
+                    mSelectedFilterMap.clear()
+                    mSelectedFilterMap[mSelectedFilter] = checkedId
+                }
+            } else {
+                isReset = false
             }
         }
 
         parentView.btnReset.setOnClickListener {
             val chipId = mSelectedFilterMap[mSelectedFilter] ?: 0
             if (chipId != 0) {
+                isReset = true
                 parentView.findViewById<Chip>(mSelectedFilterMap[mSelectedFilter] ?: 0).isChecked =
                     false
                 mSelectedFilter = ""

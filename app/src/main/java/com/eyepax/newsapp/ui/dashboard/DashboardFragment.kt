@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eyepax.newsapp.R
+import com.eyepax.newsapp.ui.MainActivity
 import com.eyepax.newsapp.ui.adapter.FilterAdapter
 import com.eyepax.newsapp.ui.adapter.HeadlinesAdapter
 import com.eyepax.newsapp.ui.adapter.NewsAdapter
@@ -24,16 +25,20 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     private lateinit var newsAdapter: NewsAdapter
     private lateinit var filterAdapter: FilterAdapter
     private val mViewModel by lazy {
-        ViewModelProvider(requireActivity()).get(DashboardViewModel::class.java)
+        ViewModelProvider(requireActivity())[DashboardViewModel::class.java]
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mViewModel.getTopHeadlines("us")
         mViewModel.getFilterList()
-        mViewModel.getFilteredList("Healthy")
+        mViewModel.getNewsByCategory("health")
         setupRecyclerView()
         subscribeObservers()
+        clickEvents()
+    }
+
+    private fun clickEvents() {
         headlineAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
                 putSerializable("article", it)
@@ -55,7 +60,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         }
 
         filterAdapter.setOnItemClickListener {
-            mViewModel.getFilteredList(it.filterName)
+            mViewModel.getNewsByCategory(it.categoryName)
         }
 
         etSearchView.isFocusable = false
@@ -64,7 +69,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 R.id.action_navigation_dashboard_to_searchFragment
             )
         }
-
     }
 
     private fun setupRecyclerView() {
@@ -96,6 +100,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         mViewModel.topHeadlines.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
+                    (activity as MainActivity).showLoading(false)
                     response.data?.let { headlineResponse ->
                         Log.d(
                             TAG,
@@ -105,7 +110,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                     }
                 }
                 is Resource.Error -> {
-//                    hideprogressBar()
+                    (activity as MainActivity).showLoading(false)
                     response.message?.let { message ->
                         Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_LONG)
                             .show()
@@ -113,7 +118,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                     }
                 }
                 is Resource.Loading -> {
-//                    showProgressBar()
+                    (activity as MainActivity).showLoading(true)
                 }
             }
 
@@ -122,21 +127,21 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         mViewModel.filterNews.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
+                    (activity as MainActivity).showLoading(false)
                     response.data?.let { filterNews ->
                         Log.d(TAG, "subscribeObservers Filtered News: ${filterNews.articles.size}")
                         newsAdapter.differ.submitList(filterNews.articles.toList())
                     }
                 }
                 is Resource.Error -> {
-                    //                    hideprogressBar()
+                    (activity as MainActivity).showLoading(false)
                     response.message?.let { message ->
                         Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_LONG)
                             .show()
-//                        showErrorMessage(message)
                     }
                 }
                 is Resource.Loading -> {
-                    //                    showProgressBar()
+                    (activity as MainActivity).showLoading(true)
                 }
             }
         })
