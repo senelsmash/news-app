@@ -112,7 +112,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 is Resource.Error -> {
                     (activity as MainActivity).showLoading(false)
                     response.message?.let { message ->
-                        Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_LONG)
+                        Toast.makeText(activity, message, Toast.LENGTH_LONG)
                             .show()
 //                        showErrorMessage(message)
                     }
@@ -136,7 +136,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 is Resource.Error -> {
                     (activity as MainActivity).showLoading(false)
                     response.message?.let { message ->
-                        Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_LONG)
+                        Toast.makeText(activity, message, Toast.LENGTH_LONG)
                             .show()
                     }
                 }

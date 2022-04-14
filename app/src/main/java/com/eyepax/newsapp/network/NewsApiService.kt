@@ -32,7 +32,7 @@ interface NewsApiService {
 
     @GET("v2/top-headlines")
     suspend fun getByCategory(
-        @Query("categorya")
+        @Query("category")
         category: String,
         @Query("page")
         pageNumber: Int = 1,
