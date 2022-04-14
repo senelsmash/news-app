@@ -7,6 +7,8 @@ import com.eyepax.newsapp.model.Filter
 import com.eyepax.newsapp.model.NewsResponse
 import com.eyepax.newsapp.repository.SharedRepository
 import com.eyepax.newsapp.utils.Resource
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Response
@@ -60,9 +62,17 @@ class SearchViewModel @Inject constructor(
 
 
             }
+        }  else {
+            return Resource.Error(
+                getErrorMessage(response.errorBody()?.string())
+            )
         }
         return Resource.Error(response.message())
     }
 
+    private fun getErrorMessage(response: String?): String {
+        val jobj: JsonObject = Gson().fromJson(response, JsonObject::class.java)
+        return jobj["message"].toString()
+    }
 
 }

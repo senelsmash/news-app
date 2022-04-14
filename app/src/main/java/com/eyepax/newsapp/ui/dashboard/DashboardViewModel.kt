@@ -5,12 +5,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.eyepax.newsapp.model.Filter
 import com.eyepax.newsapp.model.NewsResponse
-import com.eyepax.newsapp.utils.Resource
 import com.eyepax.newsapp.repository.SharedRepository
+import com.eyepax.newsapp.utils.Resource
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
+
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
@@ -47,8 +50,26 @@ class DashboardViewModel @Inject constructor(
                 topHeadlinesResponse = headlinesResponse
                 return Resource.Success(topHeadlinesResponse ?: headlinesResponse)
             }
+        } else {
+            return Resource.Error(
+                getErrorMessage(response.errorBody()?.string())
+            )
         }
         return Resource.Error(message = response.message())
+    }
+
+    private fun requestCategoryNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse> {
+        if (response.isSuccessful) {
+            response.body()?.let { filteredResponse ->
+                filterNewsResponse = filteredResponse
+                return Resource.Success(filteredResponse)
+            }
+        } else {
+            return Resource.Error(
+                getErrorMessage(response.errorBody()?.string())
+            )
+        }
+        return Resource.Error(response.errorBody().toString())
     }
 
     private suspend fun safeTopHeadlinesCall(countryCode: String) {
@@ -63,15 +84,9 @@ class DashboardViewModel @Inject constructor(
         filterNews.postValue(requestCategoryNewsResponse(response))
     }
 
-    private fun requestCategoryNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse> {
-        if (response.isSuccessful) {
-            response.body()?.let { filteredResponse ->
-                filterNewsResponse = filteredResponse
-                return Resource.Success(filteredResponse)
-            }
-        }
-
-        return Resource.Error(response.errorBody().toString())
+    private fun getErrorMessage(response: String?): String {
+        val jobj: JsonObject = Gson().fromJson(response, JsonObject::class.java)
+        return jobj["message"].toString()
     }
 
 
