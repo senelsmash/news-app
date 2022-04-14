@@ -20,6 +20,9 @@ import com.eyepax.newsapp.ui.adapter.FilterAdapter
 import com.eyepax.newsapp.ui.adapter.NewsAdapter
 import com.eyepax.newsapp.ui.dashboard.DashboardFragment
 import com.eyepax.newsapp.utils.Resource
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.chip.Chip
+import kotlinx.android.synthetic.main.bottomsheet_sortby.view.*
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
@@ -30,8 +33,10 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     private lateinit var newsAdapter: NewsAdapter
     private lateinit var filterAdapter: FilterAdapter
     private var searchJob: Job? = null
-    private var mSelectedFilter = ""
+    private var mSearchedQuery = ""
     private var mSearchedText = ""
+    private var mSelectedFilter = ""
+    private var mSelectedFilterMap: HashMap<String, Int> = HashMap()
     private val mViewModel by lazy {
         ViewModelProvider(requireActivity()).get(SearchViewModel::class.java)
     }
@@ -40,8 +45,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         super.onViewCreated(view, savedInstanceState)
         mViewModel.getFilterList()
         mViewModel.getFilteredList("Healthy")
-        mSelectedFilter = "Healthy"
-        mSearchedText = mSelectedFilter
+        mSearchedQuery = "Healthy"
+        mSearchedText = mSearchedQuery
         setupRecyclerView()
         subscriberObservers()
         clickEvents()
@@ -128,8 +133,13 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
 
         filterAdapter.setOnItemClickListener {
+            mViewModel.isClearPreviousData = true
             mViewModel.getFilteredList(it.filterName)
-            mSelectedFilter = it.filterName
+            mSearchedQuery = it.filterName
+        }
+
+        tvFilter.setOnClickListener {
+            showBottomSheetForSort()
         }
     }
 
@@ -137,12 +147,13 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         searchJob?.cancel()
         searchJob = MainScope().launch {
             delay(SEARCH_NEWS_TIME_DELAY)
+            mViewModel.isClearPreviousData = true
             if (query.isNotEmpty()) {
                 mViewModel.getFilteredList(query)
                 mSearchedText = query
             } else {
-                mViewModel.getFilteredList(mSelectedFilter)
-                mSearchedText = mSelectedFilter
+                mViewModel.getFilteredList(mSearchedQuery)
+                mSearchedText = mSearchedQuery
             }
 
         }
@@ -201,6 +212,39 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         mViewModel.filterList.observe(viewLifecycleOwner, Observer { response ->
             filterAdapter.differ.submitList(response.toList())
         })
+    }
+
+    private fun showBottomSheetForSort() {
+        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        val parentView = layoutInflater.inflate(R.layout.bottomsheet_sortby, null)
+        bottomSheetDialog.setContentView(parentView)
+        parentView.chipGroup.setOnCheckedChangeListener { group, checkedId ->
+            val chip = parentView.findViewById<Chip>(checkedId)
+            if(chip.isChecked){
+                mSelectedFilter = chip.text.toString()
+                mSelectedFilterMap.clear()
+                mSelectedFilterMap[mSelectedFilter] = checkedId
+            }
+        }
+
+        parentView.btnReset.setOnClickListener {
+            val chipId = mSelectedFilterMap[mSelectedFilter] ?: 0
+            if (chipId != 0) {
+                parentView.findViewById<Chip>(mSelectedFilterMap[mSelectedFilter] ?: 0).isChecked =
+                    false
+                mSelectedFilter = ""
+            }
+        }
+
+        parentView.btnSearch.setOnClickListener {
+            if (mSelectedFilter.isNotEmpty()) {
+                mViewModel.isClearPreviousData = true
+                mViewModel.getFilteredList(searchQuery = mSearchedText, sortBy = mSelectedFilter)
+            }
+            bottomSheetDialog.dismiss()
+        }
+        bottomSheetDialog.show()
+
     }
 
     companion object {

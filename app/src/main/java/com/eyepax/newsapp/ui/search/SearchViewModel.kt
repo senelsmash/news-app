@@ -23,6 +23,7 @@ class SearchViewModel @Inject constructor(
     val filterList: MutableLiveData<MutableList<Filter>> = MutableLiveData()
     var filterNewsResponse: NewsResponse? = null
     var page = 1
+    var isClearPreviousData = false
 
     fun getFilteredList(searchQuery: String, sortBy: String = "popularity", pageNumber: Int = 1) {
         viewModelScope.launch {
@@ -38,7 +39,7 @@ class SearchViewModel @Inject constructor(
     private suspend fun safeFilterNews(searchQuery: String, sortBy: String, pageNumber: Int) {
         filterNews.postValue(Resource.Loading())
         val response = repository.getFilterNews(
-            searchQuery = searchQuery, sortBy = sortBy, pageNumber = page
+            searchQuery = searchQuery, sortBy = sortBy, pageNumber = pageNumber
         )
         filterNews.postValue(requestFilterResponse(response))
     }
@@ -50,6 +51,9 @@ class SearchViewModel @Inject constructor(
                 if (filterNewsResponse == null) {
                     filterNewsResponse = filteredResponse
                 } else {
+                    if(isClearPreviousData) {
+                        filterNewsResponse?.articles?.clear()
+                    }
                     val oldArticles = filterNewsResponse?.articles
                     val newArticles = filteredResponse.articles
                     oldArticles?.addAll(newArticles)

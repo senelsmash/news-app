@@ -38,14 +38,26 @@
         android:text="Covid variant"/>
 
 
+    <TextView
+        android:id="@+id/tvFilter"
+        android:layout_width="@dimen/chip_width"
+        android:layout_height="@dimen/chip_height"
+        android:background="@drawable/rounded_filter"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/tvSearchText"
+        android:text="@string/filter"
+        android:layout_marginTop="@dimen/padding_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/white" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvFilter"
+        android:layout_marginStart="@dimen/padding_medium"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/padding_medium"
         app:layout_constraintTop_toBottomOf="@id/tvSearchText"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tvFilter"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView

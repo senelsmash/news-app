@@ -20,4 +20,9 @@
     <string name="search">Search</string>
     <string name="details">Details</string>
     <string name="favorite">Favorite</string>
+    <string name="filter">Filter</string>
+    <string name="reset_all">reset all</string>
+    <string name="reset">Reset</string>
+    <string name="sortby">Sort by</string>
+    <string name="save">save</string>
 </resources>
