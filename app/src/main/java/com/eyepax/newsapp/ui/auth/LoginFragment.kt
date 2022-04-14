@@ -1,5 +1,6 @@
 package com.eyepax.newsapp.ui.auth
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,10 +13,9 @@ import androidx.navigation.Navigation
 import com.eyepax.newsapp.R
 import com.eyepax.newsapp.UserPreferences
 import com.eyepax.newsapp.ui.AuthActivity
+import com.eyepax.newsapp.ui.MainActivity
 import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
@@ -27,27 +27,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         dataStoreManager = UserPreferences(requireContext())
-        redirectIfAlreadyLoggedIn()
         clickEvents(view)
-    }
-
-    private fun redirectIfAlreadyLoggedIn() {
-        lnLoading.visibility = View.VISIBLE
-        lifecycleScope.launch(Dispatchers.Main) {
-            dataStoreManager.getFromDataStore().catch { e ->
-                Log.d(TAG, "onViewCreated: datastore error " + e.message)
-                lnLoading.visibility = View.GONE
-            }.collect {
-                Log.d(TAG, "onViewCreated: datastore success " + it.username)
-                var authKey = it.id
-                if (authKey != null && authKey > 0) {
-                    lnLoading.visibility = View.GONE
-                    (activity as AuthActivity).startDashboardActivity()
-                }
-
-            }
-        }
-        lnLoading.visibility = View.GONE
     }
 
     private fun clickEvents(view: View) {
@@ -57,9 +37,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         btnLogin.setOnClickListener {
             if (etPassword.text.isEmpty() || etUsername.text.isEmpty()) {
-                showMessage(
+                Toast.makeText(
+                    requireContext(),
                     "Please enter username and password",
-                )
+                    Toast.LENGTH_LONG
+                ).show()
                 return@setOnClickListener
             }
             mViewModel.loginUser(
@@ -70,22 +52,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     Log.d(TAG, "LOGIN: user exist")
                     lifecycleScope.launch(Dispatchers.IO) {
                         dataStoreManager.saveToDataStore(user[0])
-                    }
+                    }.cancel()
                     (activity as AuthActivity).startDashboardActivity()
                 } else {
-                    showMessage("Invalid credentials")
                     Log.d(TAG, "LOGIN: user doesn't exist")
                 }
             })
         }
-    }
-
-    private fun showMessage(message: String) {
-        Toast.makeText(
-            requireContext(),
-            message,
-            Toast.LENGTH_LONG
-        ).show()
     }
 
 

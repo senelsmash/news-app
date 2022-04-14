@@ -33,20 +33,11 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_dashboard, R.id.navigation_favorite, R.id.navigation_profile
             )
         )
-        setupActionBarWithNavController(navController, appBarConfiguration)
+//        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
 
     fun showLoading(isLoading: Boolean) {
         if (isLoading) lnLoading.visibility = View.VISIBLE else lnLoading.visibility = View.GONE
-    }
-
-    fun hideBottomNavigation(isShow: Boolean) {
-        if(isShow) nav_view.visibility = View.VISIBLE else nav_view.visibility = View.GONE
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }

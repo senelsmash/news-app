@@ -3,12 +3,14 @@ package com.eyepax.newsapp.ui.dashboard
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.eyepax.newsapp.R
 import com.eyepax.newsapp.ui.MainActivity
 import com.eyepax.newsapp.ui.adapter.FilterAdapter
@@ -20,6 +22,8 @@ import kotlinx.android.synthetic.main.fragment_dashboard.*
 
 @AndroidEntryPoint
 class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
+
+    var onScrollListener: ((status: Boolean) -> Unit)? = null
 
     private lateinit var headlineAdapter: HeadlinesAdapter
     private lateinit var newsAdapter: NewsAdapter
@@ -38,16 +42,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         clickEvents()
     }
 
-    override fun onResume() {
-        super.onResume()
-        (activity as MainActivity).hideBottomNavigation(true)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        (activity as MainActivity).hideBottomNavigation(false)
-    }
-
     private fun clickEvents() {
         headlineAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
@@ -57,7 +51,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 R.id.action_navigation_dashboard_to_newsDetailFragment,
                 bundle
             )
-            (activity as MainActivity).hideBottomNavigation(false)
         }
 
         newsAdapter.setOnItemClickListener {
@@ -96,6 +89,21 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
         }
+
+        rvNewsList.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                onScrollListener?.invoke(newState == 0)
+
+                //TODO
+
+//                (rvNewsList.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+
+//                if (newState == 2)
+//                    mViewModel.getNewsByCategoryNext(filterAdapter.selectedFilter)
+            }
+        })
 
         filterAdapter = FilterAdapter()
         rvFilter.apply {

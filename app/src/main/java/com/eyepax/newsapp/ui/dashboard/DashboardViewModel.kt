@@ -1,5 +1,6 @@
 package com.eyepax.newsapp.ui.dashboard
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,6 +24,7 @@ class DashboardViewModel @Inject constructor(
     val topHeadlines: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     val filterNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()
     val filterList: MutableLiveData<MutableList<Filter>> = MutableLiveData()
+    var page : Int = 0
     var topHeadlinesResponse: NewsResponse? = null
     var filterNewsResponse: NewsResponse? = null
 
@@ -35,7 +37,15 @@ class DashboardViewModel @Inject constructor(
 
     fun getNewsByCategory(category: String) {
         viewModelScope.launch {
-            safeCategoryNews(category)
+            page = 0
+            safeCategoryNews(category, page)
+        }
+    }
+
+    fun getNewsByCategoryNext(category: String) {
+        viewModelScope.launch {
+            page += 1
+            safeCategoryNews(category, page)
         }
     }
 
@@ -78,9 +88,10 @@ class DashboardViewModel @Inject constructor(
         topHeadlines.postValue(requestTopHeadlinesResponse(response))
     }
 
-    private suspend fun safeCategoryNews(category: String) {
+    private suspend fun safeCategoryNews(category: String, page: Int) {
+        Log.d(DashboardViewModel::javaClass.name, "safeCategoryNews: cat: $category | Page: $page")
         filterNews.postValue(Resource.Loading())
-        val response = repository.getNewsByCategory(category = category)
+        val response = repository.getNewsByCategory(category = category, page = page)
         filterNews.postValue(requestCategoryNewsResponse(response))
     }
 

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="default_height">45dp</dimen>
+
+    <dimen name="margin_medium">16dp</dimen>
+    <dimen name="margin_low">8dp</dimen>
+
     <dimen name="padding_medium">8dp</dimen>
     <dimen name="height_edit_text">55dp</dimen>
     <dimen name="padding">16dp</dimen>
@@ -7,6 +12,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="card_height">250dp</dimen>
+    <dimen name="card_height_news">150dp</dimen>
 
     <dimen name="text_x_large">35sp</dimen>
     <dimen name="text_small">12sp</dimen>
@@ -17,5 +23,5 @@
     <dimen name="chip_height">42dp</dimen>
     <dimen name="chip_width">90dp</dimen>
     <dimen name="text_medium">16sp</dimen>
-    <dimen name="padding_high">32dp</dimen>
+    <dimen name="margin_large">24dp</dimen>
 </resources>

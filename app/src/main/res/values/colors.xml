@@ -13,5 +13,9 @@
     <color name="secondary">#0080FF</color>
     <color name="territory">#FFE600</color>
     <color name="text_black">#192A3E</color>
-    <color name="transparent">#AEF5F5F5</color>
+    <color name="transparent">#E2F5F5F5</color>
+    <color name="search_boarder">#f0f1fa</color>
+
+    <color name="colorSearchBoarder">#f0f1fa</color>
+    <color name="colorTextSearch">#E6E8FF</color>
 </resources>
