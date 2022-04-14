@@ -39,7 +39,7 @@ class SearchViewModel @Inject constructor(
     private suspend fun safeFilterNews(searchQuery: String, sortBy: String, pageNumber: Int) {
         filterNews.postValue(Resource.Loading())
         val response = repository.getFilterNews(
-            searchQuery = searchQuery, sortBy = sortBy, pageNumber = pageNumber
+            searchQuery = searchQuery, sortBy = sortBy, pageNumber = page
         )
         filterNews.postValue(requestFilterResponse(response))
     }

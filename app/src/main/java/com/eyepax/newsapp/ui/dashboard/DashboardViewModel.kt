@@ -27,7 +27,7 @@ class DashboardViewModel @Inject constructor(
     var page : Int = 0
     var topHeadlinesResponse: NewsResponse? = null
     var filterNewsResponse: NewsResponse? = null
-
+    var isClearPreviousData = false
 
     fun getTopHeadlines(countryCode: String) {
         viewModelScope.launch {
@@ -37,7 +37,7 @@ class DashboardViewModel @Inject constructor(
 
     fun getNewsByCategory(category: String) {
         viewModelScope.launch {
-            page = 0
+//            page = 0
             safeCategoryNews(category, page)
         }
     }
@@ -71,8 +71,18 @@ class DashboardViewModel @Inject constructor(
     private fun requestCategoryNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse> {
         if (response.isSuccessful) {
             response.body()?.let { filteredResponse ->
-                filterNewsResponse = filteredResponse
-                return Resource.Success(filteredResponse)
+                page++
+                if(filterNewsResponse == null) {
+                    filterNewsResponse = filteredResponse
+                } else {
+                    if(isClearPreviousData) {
+                        filterNewsResponse?.articles?.clear()
+                    }
+                    val oldArticles = filterNewsResponse?.articles
+                    val newArticles = filteredResponse.articles
+                    oldArticles?.addAll(newArticles)
+                }
+                return Resource.Success(filterNewsResponse ?: filteredResponse)
             }
         } else {
             return Resource.Error(
