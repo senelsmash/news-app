@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_dashboard, R.id.navigation_favorite, R.id.navigation_profile
             )
         )
-        setupActionBarWithNavController(navController, appBarConfiguration)
+//        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
 
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         if (isLoading) lnLoading.visibility = View.VISIBLE else lnLoading.visibility = View.GONE
     }
 
-    fun hideBottomNavigation(isShow: Boolean) {
+    fun showBottomNavigation(isShow: Boolean) {
         if(isShow) nav_view.visibility = View.VISIBLE else nav_view.visibility = View.GONE
     }
 

@@ -3,12 +3,15 @@ package com.eyepax.newsapp.ui.dashboard
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.AbsListView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.eyepax.newsapp.AppConstant
 import com.eyepax.newsapp.R
 import com.eyepax.newsapp.ui.MainActivity
 import com.eyepax.newsapp.ui.adapter.FilterAdapter
@@ -21,9 +24,12 @@ import kotlinx.android.synthetic.main.fragment_dashboard.*
 @AndroidEntryPoint
 class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
+    var onScrollListener: ((status: Boolean) -> Unit)? = null
+
     private lateinit var headlineAdapter: HeadlinesAdapter
     private lateinit var newsAdapter: NewsAdapter
     private lateinit var filterAdapter: FilterAdapter
+    private var mSelectedCategory = ""
     private val mViewModel by lazy {
         ViewModelProvider(requireActivity())[DashboardViewModel::class.java]
     }
@@ -33,19 +39,10 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         mViewModel.getTopHeadlines("us")
         mViewModel.getFilterList()
         mViewModel.getNewsByCategory("health")
+        mSelectedCategory = "health"
         setupRecyclerView()
         subscribeObservers()
         clickEvents()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        (activity as MainActivity).hideBottomNavigation(true)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        (activity as MainActivity).hideBottomNavigation(false)
     }
 
     private fun clickEvents() {
@@ -57,7 +54,6 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 R.id.action_navigation_dashboard_to_newsDetailFragment,
                 bundle
             )
-            (activity as MainActivity).hideBottomNavigation(false)
         }
 
         newsAdapter.setOnItemClickListener {
@@ -71,11 +67,13 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         }
 
         filterAdapter.setOnItemClickListener {
+            mViewModel.isClearPreviousData = true
             mViewModel.getNewsByCategory(it.categoryName)
+            mSelectedCategory = it.categoryName
         }
 
-        etSearchView.isFocusable = false
-        searchContainer.setOnClickListener {
+        searchViewWidget.isFocusable = false
+        searchViewContainer.setOnClickListener {
             findNavController().navigate(
                 R.id.action_navigation_dashboard_to_searchFragment
             )
@@ -95,7 +93,30 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         rvNewsList.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
+            addOnScrollListener(scrollListener)
         }
+
+//        rvNewsList.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+//                super.onScrollStateChanged(recyclerView, newState)
+//
+//                onScrollListener?.invoke(newState == 0)
+//
+//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+//
+//                    (activity as MainActivity).showBottomNavigation(true)
+//
+//                } else {
+//                    (activity as MainActivity).showBottomNavigation(false)
+//
+//                }
+//
+////                (rvNewsList.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
+//
+////                if (newState == 2)
+////                    mViewModel.getNewsByCategoryNext(filterAdapter.selectedFilter)
+//            }
+//        })
 
         filterAdapter = FilterAdapter()
         rvFilter.apply {
@@ -136,6 +157,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         mViewModel.filterNews.observe(viewLifecycleOwner, Observer { response ->
             when (response) {
                 is Resource.Success -> {
+                    hideProgressBar()
+                    hideErrorMessage()
                     (activity as MainActivity).showLoading(false)
                     response.data?.let { filterNews ->
                         Log.d(TAG, "subscribeObservers Filtered News: ${filterNews.articles.size}")
@@ -143,13 +166,14 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                     }
                 }
                 is Resource.Error -> {
+                    hideProgressBar()
                     (activity as MainActivity).showLoading(false)
                     response.message?.let { message ->
                         showErrorMessage(message)
                     }
                 }
                 is Resource.Loading -> {
-                    (activity as MainActivity).showLoading(true)
+                    showProgressBar()
                 }
             }
         })
@@ -159,9 +183,72 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         })
     }
 
+    var isError = false
+    var isLoading = false
+    var isLastPage = false
+    var isScrolling = false
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
+            val visibleItemCount = layoutManager.childCount
+            val totalItemCount = layoutManager.itemCount
+
+            val isNoErrors = !isError
+            val isNotLoadingAndNotLastPage = !isLoading && !isLastPage
+            val isAtLastItem = firstVisibleItemPosition + visibleItemCount >= totalItemCount
+            val isNotAtBeginning = firstVisibleItemPosition >= 0
+            val isTotalMoreThanVisible = totalItemCount >= AppConstant.QUERY_PAGE_SIZE
+            val shouldPaginate =
+                isNoErrors && isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning &&
+                        isTotalMoreThanVisible && isScrolling
+            if (shouldPaginate) {
+                mViewModel.getNewsByCategory(mSelectedCategory)
+                isScrolling = false
+            }
+        }
+
+        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+            super.onScrollStateChanged(recyclerView, newState)
+            if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                isScrolling = true
+                (activity as MainActivity).showBottomNavigation(false)
+            } else if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                (activity as MainActivity).showBottomNavigation(true)
+
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as MainActivity).showBottomNavigation(false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).showBottomNavigation(true)
+    }
+
     private fun showErrorMessage(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG)
             .show()
+        isError = true
+    }
+
+    private fun hideErrorMessage() {
+        isError = false
+    }
+
+    private fun hideProgressBar() {
+        isLoading = false
+    }
+
+    private fun showProgressBar() {
+        (activity as MainActivity).showLoading(true)
+        isLoading = true
     }
 
     companion object {

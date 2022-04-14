@@ -2,25 +2,24 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-    </data>
+    <data/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewHeadline"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/card_height"
-        android:layout_marginBottom="@dimen/padding_medium"
+        android:layout_height="@dimen/card_height_news"
+        android:layout_marginStart="@dimen/margin_low"
+        android:layout_marginEnd="@dimen/margin_low"
+        android:layout_marginBottom="@dimen/margin_low"
         app:cardCornerRadius="18dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            app:cardCornerRadius="18dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:cardCornerRadius="18dp">
-
+            android:layout_height="match_parent">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -30,8 +29,7 @@
                     android:id="@+id/ivHeadlineImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_news_icon" />
+                    android:scaleType="centerCrop" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -44,30 +42,32 @@
                         android:id="@+id/tvHeadlineTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Title here"
+                        android:maxLines="3"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_medium"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:fontFamily="@font/playfair_display_semi_bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
 
                     <TextView
                         android:id="@+id/tvAuthor"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:text="Matt william"
+                        android:fontFamily="@font/nunito_regular"
+                        android:maxLines="1"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_medium"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/tvDate"
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <TextView
                         android:id="@+id/tvDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sunday 9 may 2021"
+                        android:maxLines="1"
+                        android:fontFamily="@font/nunito_regular"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_medium"
                         app:layout_constraintBottom_toBottomOf="parent"

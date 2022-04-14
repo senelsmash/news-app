@@ -45,10 +45,11 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
     private var onItemClickListener: ((Article) -> Unit)? = null
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
+
         val article = differ.currentList[position]
         holder.itemView.apply {
             Glide.with(this).load(article.urlToImage).into(ivHeadlineImage)
-            tvAuthor.text = article.author
+            tvAuthor.text = if (article.author.isNullOrEmpty()) context.getString(R.string.n_a) else article.author
             tvHeadlineTitle.text = article.title
             tvDate.text = article.publishedAt?.let { Helper.getTimeFromZTime(it) }
             setOnClickListener {

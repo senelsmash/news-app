@@ -41,7 +41,9 @@
     <TextView
         android:id="@+id/tvFilter"
         android:layout_width="@dimen/chip_width"
-        android:layout_height="@dimen/chip_height"
+        android:paddingTop="@dimen/padding_medium"
+        android:paddingBottom="@dimen/padding_medium"
+        android:layout_height="wrap_content"
         android:background="@drawable/rounded_filter"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/tvSearchText"

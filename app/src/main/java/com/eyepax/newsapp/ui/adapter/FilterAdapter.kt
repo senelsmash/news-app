@@ -3,9 +3,11 @@ package com.eyepax.newsapp.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.ui.text.capitalize
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.eyepax.newsapp.AppConstant.Companion.QUERY_CATEGORY
 import com.eyepax.newsapp.R
 import com.eyepax.newsapp.model.Filter
 import kotlinx.android.synthetic.main.item_filter.view.*
@@ -14,6 +16,7 @@ import kotlinx.android.synthetic.main.item_filter.view.*
 class FilterAdapter : RecyclerView.Adapter<FilterAdapter.FilterViewHolder>() {
 
     inner class FilterViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    var selectedFilter: String = QUERY_CATEGORY
 
     private val differCallback = object : DiffUtil.ItemCallback<Filter>() {
         override fun areItemsTheSame(oldItem: Filter, newItem: Filter): Boolean {
@@ -50,19 +53,22 @@ class FilterAdapter : RecyclerView.Adapter<FilterAdapter.FilterViewHolder>() {
             if(filter.isSelected) {
                 filter.isSelected = false
                 tvFilter.setTextColor(resources.getColor(R.color.white))
-                tvFilter.background = resources.getDrawable(R.drawable.rounded_filter)
+                tvFilter.isChecked = true
+                selectedFilter = filter.categoryName
             } else {
                 tvFilter.setTextColor(resources.getColor(R.color.text_black))
-                tvFilter.background = resources.getDrawable(R.drawable.rounded_filter_white)
+                tvFilter.isChecked = false
             }
-            tvFilter.text = filter.categoryName
+            tvFilter.text = filter.categoryName.capitalize()
             setOnClickListener {
                 onItemClickListener?.let {
+                    differ.currentList.forEach {
+                        it.isSelected = false
+                    }
                     filter.isSelected = true
-                    notifyDataSetChanged()
-                    tvFilter.setTextColor(resources.getColor(R.color.white))
-                    tvFilter.background = resources.getDrawable(R.drawable.rounded_filter)
+                    selectedFilter = tvFilter.text.toString().lowercase()
                     it(filter)
+                    notifyDataSetChanged()
                 }
             }
         }

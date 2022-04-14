@@ -33,4 +33,6 @@
     <string name="profile">Profile</string>
     <string name="lblUsername">Username</string>
     <string name="lblPassword">Password</string>
+    <string name="notification_logo" />
+    <string name="n_a">N/A</string>
 </resources>

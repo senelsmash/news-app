@@ -1,5 +1,6 @@
 package com.eyepax.newsapp.repository
 
+import com.eyepax.newsapp.AppConstant.Companion.QUERY_PAGE_SIZE
 import com.eyepax.newsapp.model.Filter
 import com.eyepax.newsapp.network.NewsApiService
 import javax.inject.Inject
@@ -23,13 +24,13 @@ class SharedRepository @Inject constructor(
         return filterList
     }
 
-    suspend fun getFilterNews(filterType: String) =
-        newsApi.getFilterNews(filter = filterType)
+    suspend fun getFilterNews(filterType: String, page: Int) =
+        newsApi.getFilterNews(filter = filterType, pageSize = QUERY_PAGE_SIZE, page = page)
 
     suspend fun getNewsByCategory(category: String, page: Int = 1) =
-        newsApi.getByCategory(category = category, pageNumber = page)
+        newsApi.getByCategory(category = category, pageNumber = page, pageSize = QUERY_PAGE_SIZE)
 
     suspend fun getFilterNews(searchQuery: String, sortBy: String, pageNumber: Int) =
-        newsApi.getFilterNews(filter = searchQuery, sortBy = sortBy, pageNumber = pageNumber)
+        newsApi.getFilterNews(filter = searchQuery, sortBy = sortBy, pageSize = QUERY_PAGE_SIZE, page = pageNumber)
 
 }
