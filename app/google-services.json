@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "215888231150",
+    "project_id": "news-app-a9f25",
+    "storage_bucket": "news-app-a9f25.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:215888231150:android:bd44dc5a3ea6b9c9c711ff",
+        "android_client_info": {
+          "package_name": "com.eyepax.newsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "215888231150-t57s8jr0e2ue1b6krlirl6ebb84ev96k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVajv5UraLAN_oWy02bmkkzyTsREuWoZg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "215888231150-t57s8jr0e2ue1b6krlirl6ebb84ev96k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

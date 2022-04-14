@@ -40,4 +40,13 @@ class MainActivity : AppCompatActivity() {
     fun showLoading(isLoading: Boolean) {
         if (isLoading) lnLoading.visibility = View.VISIBLE else lnLoading.visibility = View.GONE
     }
+
+    fun hideBottomNavigation(isShow: Boolean) {
+        if(isShow) nav_view.visibility = View.VISIBLE else nav_view.visibility = View.GONE
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
 }

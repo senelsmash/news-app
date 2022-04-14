@@ -122,7 +122,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="@dimen/padding"
-        android:layout_marginBottom="@dimen/padding"
+        android:layout_marginBottom="@dimen/padding_high"
         android:tint="@color/white"
         android:backgroundTint="@color/territory"
         android:src="@drawable/ic_favorite"

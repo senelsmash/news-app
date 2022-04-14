@@ -24,11 +24,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
+            android:maxLines="1"
             android:id="@+id/etUsername"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_edit_text"
             android:background="@drawable/rounded_filter_white"
-            android:hint="username"
+            android:hint="@string/lblUsername"
             android:paddingStart="@dimen/padding_medium"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,12 +37,12 @@
 
         <EditText
             android:id="@+id/etPassword"
-
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_edit_text"
             android:layout_marginTop="@dimen/padding_medium"
             android:background="@drawable/rounded_filter_white"
-            android:hint="password"
+            android:hint="@string/lblPassword"
             android:inputType="textPassword"
             android:paddingStart="@dimen/padding_medium"
             app:layout_constraintEnd_toEndOf="parent"
@@ -73,5 +74,21 @@
             android:text="@string/register"
             app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/lnLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:clickable="true"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="loading.json"
+            app:lottie_loop="true"
+            app:lottie_repeatMode="restart" />
+    </LinearLayout></androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,4 +17,5 @@
     <dimen name="chip_height">42dp</dimen>
     <dimen name="chip_width">90dp</dimen>
     <dimen name="text_medium">16sp</dimen>
+    <dimen name="padding_high">32dp</dimen>
 </resources>

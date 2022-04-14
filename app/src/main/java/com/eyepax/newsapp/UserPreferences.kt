@@ -38,7 +38,7 @@ class UserPreferences(
         }
     }
 
-    suspend fun getFromDataStore() = context.dataStore.data.map {
+    fun getFromDataStore() = context.dataStore.data.map {
         User(
             firstName = it[FIRSTNAME]?:"",
             lastName = it[LASTNAME]?:"",

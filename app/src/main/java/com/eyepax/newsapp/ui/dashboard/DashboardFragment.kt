@@ -38,6 +38,16 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         clickEvents()
     }
 
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).hideBottomNavigation(true)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as MainActivity).hideBottomNavigation(false)
+    }
+
     private fun clickEvents() {
         headlineAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
@@ -47,6 +57,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 R.id.action_navigation_dashboard_to_newsDetailFragment,
                 bundle
             )
+            (activity as MainActivity).hideBottomNavigation(false)
         }
 
         newsAdapter.setOnItemClickListener {
