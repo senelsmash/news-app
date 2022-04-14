@@ -1,11 +1,14 @@
 package com.eyepax.newsapp.di
 
+import android.content.Context
 import com.eyepax.newsapp.AppConstant.Companion.BASE_URL
+import com.eyepax.newsapp.db.NewsAppDatabase
 import com.eyepax.newsapp.network.NewsApiService
 import com.eyepax.newsapp.repository.SharedRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -37,6 +40,12 @@ object RetrofitModule {
 
     fun provideDashboardRepository(api: NewsApiService): SharedRepository {
         return SharedRepository(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNewsAppDatabase(@ApplicationContext appContext: Context): NewsAppDatabase {
+        return NewsAppDatabase(appContext)
     }
 
 

@@ -3,8 +3,10 @@ package com.eyepax.newsapp.ui.search
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.eyepax.newsapp.model.Article
 import com.eyepax.newsapp.model.Filter
 import com.eyepax.newsapp.model.NewsResponse
+import com.eyepax.newsapp.repository.FavoriteRepository
 import com.eyepax.newsapp.repository.SharedRepository
 import com.eyepax.newsapp.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val repository: SharedRepository
+    private val repository: SharedRepository,
 ) : ViewModel() {
 
     val filterNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData()

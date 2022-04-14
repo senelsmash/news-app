@@ -20,10 +20,6 @@ import com.eyepax.newsapp.ui.adapter.FilterAdapter
 import com.eyepax.newsapp.ui.adapter.NewsAdapter
 import com.eyepax.newsapp.ui.dashboard.DashboardFragment
 import com.eyepax.newsapp.utils.Resource
-import kotlinx.android.synthetic.main.fragment_dashboard.*
-import kotlinx.android.synthetic.main.fragment_dashboard.etSearchView
-import kotlinx.android.synthetic.main.fragment_dashboard.rvFilter
-import kotlinx.android.synthetic.main.fragment_dashboard.rvNewsList
 import kotlinx.android.synthetic.main.fragment_search.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope

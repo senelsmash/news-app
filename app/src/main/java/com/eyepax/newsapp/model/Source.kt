@@ -1,6 +1,6 @@
 package com.eyepax.newsapp.model
 
 data class Source(
-    val id: String?,
+    val id: Any?,
     val name: String?
 )
