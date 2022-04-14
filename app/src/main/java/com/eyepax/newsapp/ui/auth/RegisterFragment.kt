@@ -90,30 +90,26 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                 return if (password == passwordConfirmation) {
                     true
                 } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "Password mismatch",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    showMessage("Password mismatch")
                     false
                 }
             } else {
-                Toast.makeText(
-                    requireContext(),
-                    "Please enter valid email address",
-                    Toast.LENGTH_LONG
-                ).show()
+                showMessage("Please enter valid email address")
                 return false
             }
 
         } else {
-            Toast.makeText(
-                requireContext(),
-                "Please enter all fields",
-                Toast.LENGTH_LONG
-            ).show()
+            showMessage("Please enter all fields")
             return false
         }
+    }
+
+    fun showMessage(message:String) {
+        Toast.makeText(
+            requireContext(),
+            "Please enter all fields",
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     companion object {
