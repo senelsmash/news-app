@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.eyepax.newsapp.R
 import com.eyepax.newsapp.model.Article
 import com.eyepax.newsapp.ui.search.SearchViewModel
+import com.eyepax.newsapp.utils.Helper
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_news_detail.*
 import kotlinx.android.synthetic.main.item_headline_layout.view.*
@@ -36,7 +37,7 @@ class NewsDetailFragment : Fragment(R.layout.fragment_news_detail) {
 
     private fun initializeView(article: Article) {
         Glide.with(this).load(article.urlToImage).into(ivNewsImage)
-        tvDates.text = article.publishedAt
+        tvDates.text = article.publishedAt?.let { Helper.getTimeFromZTime(it) }
         tvNewsTitle.text = article.title
         tvContent.text = article.content + "\n" +article.description  //full content is not provided in api
         tvPublishedBy.text = article.author
