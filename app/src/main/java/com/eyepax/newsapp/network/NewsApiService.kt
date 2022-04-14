@@ -19,7 +19,7 @@ interface NewsApiService {
 
     @GET("v2/everything")
     suspend fun getFilterNews(
-        @Query("filter") filter: String, @Query("apiKey") apiKey: String = API_KEY,
+        @Query("q") filter: String, @Query("apiKey") apiKey: String = API_KEY,
         @Query("sortBy") sortBy: String = QUERY_SORT_BY,
         @Query("pageSize") pageSize: Int, @Query("page") page: Int
     ): Response<NewsResponse>

@@ -3,7 +3,6 @@ package com.eyepax.newsapp.ui.dashboard
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -67,8 +66,8 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             mViewModel.getNewsByCategory(it.categoryName)
         }
 
-        etSearchView.isFocusable = false
-        searchContainer.setOnClickListener {
+        searchViewWidget.isFocusable = false
+        searchViewContainer.setOnClickListener {
             findNavController().navigate(
                 R.id.action_navigation_dashboard_to_searchFragment
             )
@@ -96,7 +95,14 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
                 onScrollListener?.invoke(newState == 0)
 
-                //TODO
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+
+                    (activity as MainActivity).showBottomNavigation(true)
+
+                } else {
+                    (activity as MainActivity).showBottomNavigation(false)
+
+                }
 
 //                (rvNewsList.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
 
@@ -165,6 +171,16 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         mViewModel.filterList.observe(viewLifecycleOwner, Observer { response ->
             filterAdapter.differ.submitList(response.toList())
         })
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as MainActivity).showBottomNavigation(false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).showBottomNavigation(true)
     }
 
     private fun showErrorMessage(message: String) {

@@ -65,8 +65,9 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         val firstName = etFirstname.text?.trim().toString()
         val lastName = etLastname.text?.trim().toString()
         val password = etRetypePassword.text?.trim().toString()
+        val passwordConfirmation = etPasswordReg.text?.trim().toString()
         val email = etEmail.text?.trim().toString()
-        if (isValidInput(userName, firstName, lastName, password, email)) {
+        if (isValidInput(userName, firstName, lastName, password, passwordConfirmation, email)) {
             mUser = User(
                 username = userName,
                 firstName = firstName,
@@ -80,13 +81,22 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     }
 
     private fun isValidInput(
-        username: String, firstName: String, lastName: String, password: String, email: String
+        username: String, firstName: String, lastName: String, password: String, passwordConfirmation: String, email: String
     ): Boolean {
         if (username.isNotEmpty() && firstName.isNotEmpty() && lastName.isNotEmpty()
-            && password.isNotEmpty() && email.isNotEmpty()
+            && password.isNotEmpty() && email.isNotEmpty() && passwordConfirmation.isNotEmpty()
         ) {
             if (email.matches(AppConstant.EMAIL_PATTERN.toRegex())) {
-                return true
+                return if (password == passwordConfirmation) {
+                    true
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Password mismatch",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    false
+                }
             } else {
                 Toast.makeText(
                     requireContext(),
@@ -95,6 +105,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                 ).show()
                 return false
             }
+
         } else {
             Toast.makeText(
                 requireContext(),

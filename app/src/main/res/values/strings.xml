@@ -31,6 +31,8 @@
     <string name="Montserrat_SemiBold">Montserrat-SemiBold</string>
     <string name="USER_NOT_FOUND">User not found.</string>
     <string name="profile">Profile</string>
-    <string name="notification_logo">logo</string>
+    <string name="lblUsername">Username</string>
+    <string name="lblPassword">Password</string>
+    <string name="notification_logo" />
     <string name="n_a">N/A</string>
 </resources>

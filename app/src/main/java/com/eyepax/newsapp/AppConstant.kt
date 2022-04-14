@@ -7,7 +7,7 @@ class AppConstant {
         const val SEARCH_NEWS_TIME_DELAY = 500L
         const val USER_NOT_EXIST = 0
         const val EMAIL_PATTERN = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"
-        const val QUERY_PAGE_SIZE = 20
+        const val QUERY_PAGE_SIZE = 10
         const val QUERY_CATEGORY = "health"
         const val QUERY_SORT_BY = "popularity"
         const val USER_DATASTORE = "user_data"
