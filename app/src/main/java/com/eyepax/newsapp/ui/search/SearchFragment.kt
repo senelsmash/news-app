@@ -54,6 +54,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun showErrorMessage(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG)
+            .show()
         isError = true
     }
 
@@ -198,8 +200,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 is Resource.Error -> {
                     hideProgressBar()
                     response.message?.let { message ->
-                        Toast.makeText(activity, "An error occured: $message", Toast.LENGTH_LONG)
-                            .show()
                         showErrorMessage(message)
                     }
                 }

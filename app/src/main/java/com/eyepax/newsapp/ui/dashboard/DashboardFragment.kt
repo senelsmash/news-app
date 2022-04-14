@@ -112,9 +112,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 is Resource.Error -> {
                     (activity as MainActivity).showLoading(false)
                     response.message?.let { message ->
-                        Toast.makeText(activity, message, Toast.LENGTH_LONG)
-                            .show()
-//                        showErrorMessage(message)
+                        showErrorMessage(message)
                     }
                 }
                 is Resource.Loading -> {
@@ -136,8 +134,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                 is Resource.Error -> {
                     (activity as MainActivity).showLoading(false)
                     response.message?.let { message ->
-                        Toast.makeText(activity, message, Toast.LENGTH_LONG)
-                            .show()
+                        showErrorMessage(message)
                     }
                 }
                 is Resource.Loading -> {
@@ -149,6 +146,11 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         mViewModel.filterList.observe(viewLifecycleOwner, Observer { response ->
             filterAdapter.differ.submitList(response.toList())
         })
+    }
+
+    private fun showErrorMessage(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG)
+            .show()
     }
 
     companion object {
