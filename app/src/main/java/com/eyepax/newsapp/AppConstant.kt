@@ -2,7 +2,7 @@ package com.eyepax.newsapp
 
 class AppConstant {
     companion object {
-        const val API_KEY = "3c0a91a357924f73b0ec2e2c6c38f6a1"
+        const val API_KEY = "ae3766a89dbc4c1ebe00709e5615bd9f"
         const val BASE_URL = "https://newsapi.org"
         const val SEARCH_NEWS_TIME_DELAY = 500L
         const val USER_NOT_EXIST = 0
