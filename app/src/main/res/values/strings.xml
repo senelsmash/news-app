@@ -35,4 +35,5 @@
     <string name="lblPassword">Password</string>
     <string name="notification_logo" />
     <string name="n_a">N/A</string>
+    <string name="logout">Logout</string>
 </resources>

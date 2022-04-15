@@ -48,9 +48,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         mViewModel.registerUserId.observe(viewLifecycleOwner, Observer { userId ->
             if (userId != 0L) {
                 mUser.id = userId?.toInt()
-                lifecycleScope.launch(Dispatchers.IO) {
-                    dataStoreManager.saveToDataStore(mUser)
-                }.cancel()
+                mViewModel.setUser(mUser)
                 (activity as AuthActivity).startDashboardActivity()
                 Log.d(TAG, "subscribeObservers: user insert id is: $userId")
             } else {

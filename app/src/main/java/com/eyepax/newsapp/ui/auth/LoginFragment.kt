@@ -22,32 +22,26 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private val mViewModel by lazy {
         ViewModelProvider(requireActivity()).get(AuthViewModel::class.java)
     }
-    lateinit var dataStoreManager: UserPreferences
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        dataStoreManager = UserPreferences(requireContext())
-//        redirectIfAlreadyLoggedIn()
+        subscriberObservers()
+        redirectIfAlreadyLoggedIn()
         clickEvents(view)
     }
 
-    private fun redirectIfAlreadyLoggedIn() {
-        lnLoading.visibility = View.VISIBLE
-        lifecycleScope.launch(Dispatchers.Main) {
-            dataStoreManager.getFromDataStore().catch { e ->
-                Log.d(TAG, "onViewCreated: datastore error " + e.message)
-                lnLoading.visibility = View.GONE
-            }.collect {
-                Log.d(TAG, "onViewCreated: datastore success " + it.username)
-                var authKey = it.id
-                if (authKey != null && authKey > 0) {
-                    lnLoading.visibility = View.GONE
+    private fun subscriberObservers() {
+        mViewModel.userData.observe(
+            viewLifecycleOwner, Observer {
+                if(!it?.username.isNullOrEmpty()){
                     (activity as AuthActivity).startDashboardActivity()
                 }
-
             }
-        }
-        lnLoading.visibility = View.GONE
+        )
+    }
+
+    private fun redirectIfAlreadyLoggedIn() {
+        mViewModel.getUser()
     }
 
     private fun clickEvents(view: View) {
@@ -68,9 +62,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             ).observe(viewLifecycleOwner, Observer { user ->
                 if (user.isNotEmpty()) {
                     Log.d(TAG, "LOGIN: user exist")
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        dataStoreManager.saveToDataStore(user[0])
-                    }
+                    mViewModel.setUser(user[0])
                     (activity as AuthActivity).startDashboardActivity()
                 } else {
                     showMessage("Invalid credentials")

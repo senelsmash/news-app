@@ -1,10 +1,13 @@
 package com.eyepax.newsapp.ui.dashboard
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.AbsListView
 import android.widget.Toast
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -30,6 +33,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
     private lateinit var newsAdapter: NewsAdapter
     private lateinit var filterAdapter: FilterAdapter
     private var mSelectedCategory = ""
+    private var isApiRequest = false
     private val mViewModel by lazy {
         ViewModelProvider(requireActivity())[DashboardViewModel::class.java]
     }
@@ -93,30 +97,11 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         rvNewsList.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
+            hasFixedSize()
             addOnScrollListener(scrollListener)
         }
 
-//        rvNewsList.addOnScrollListener(object : RecyclerView.OnScrollListener(){
-//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-//                super.onScrollStateChanged(recyclerView, newState)
-//
-//                onScrollListener?.invoke(newState == 0)
-//
-//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-//
-//                    (activity as MainActivity).showBottomNavigation(true)
-//
-//                } else {
-//                    (activity as MainActivity).showBottomNavigation(false)
-//
-//                }
-//
-////                (rvNewsList.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition()
-//
-////                if (newState == 2)
-////                    mViewModel.getNewsByCategoryNext(filterAdapter.selectedFilter)
-//            }
-//        })
+        implementedScrollListener()
 
         filterAdapter = FilterAdapter()
         rvFilter.apply {
@@ -127,6 +112,37 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
         }
 
     }
+
+    private fun implementedScrollListener() {
+        nestedScrollView.setOnScrollChangeListener(mScrollChangeListener)
+    }
+
+    private val mScrollChangeListener =
+        NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if (scrollY > oldScrollY) {
+                //Scrolling down
+            }
+            if (scrollY < oldScrollY) {
+                //Scrolling up
+            }
+
+            if (scrollY == 0) {
+                //Reaches to the top
+            }
+
+            if (v != null) {
+                if (scrollY + v.measuredHeight == v.getChildAt(0).measuredHeight) {
+
+                    if (!isApiRequest){
+
+                        Log.d(TAG, "setOnScrollChangeListener: $scrollY")
+
+                        isApiRequest = true
+                        mViewModel.getNewsByCategoryNext(filterAdapter.selectedFilter)
+                    }
+                }
+            }
+        }
 
     private fun subscribeObservers() {
         mViewModel.topHeadlines.observe(viewLifecycleOwner, Observer { response ->
@@ -163,13 +179,24 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
                     response.data?.let { filterNews ->
                         Log.d(TAG, "subscribeObservers Filtered News: ${filterNews.articles.size}")
                         newsAdapter.differ.submitList(filterNews.articles.toList())
+
+                        val r = Runnable {
+                            isApiRequest = false
+                        }
+                        Handler(Looper.getMainLooper()).postDelayed(r, 2000)
                     }
                 }
                 is Resource.Error -> {
                     hideProgressBar()
                     (activity as MainActivity).showLoading(false)
                     response.message?.let { message ->
+
                         showErrorMessage(message)
+
+                        val r = Runnable {
+                            isApiRequest = false
+                        }
+                        Handler(Looper.getMainLooper()).postDelayed(r, 2000)
                     }
                 }
                 is Resource.Loading -> {

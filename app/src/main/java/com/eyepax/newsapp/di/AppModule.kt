@@ -5,6 +5,7 @@ import com.eyepax.newsapp.AppConstant.Companion.BASE_URL
 import com.eyepax.newsapp.db.NewsAppDatabase
 import com.eyepax.newsapp.network.NewsApiService
 import com.eyepax.newsapp.repository.SharedRepository
+import com.eyepax.newsapp.repository.UserPreferenceRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,7 +20,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RetrofitModule {
+object AppModule {
 
     @Provides
     @Singleton
@@ -46,6 +47,12 @@ object RetrofitModule {
     @Singleton
     fun provideNewsAppDatabase(@ApplicationContext appContext: Context): NewsAppDatabase {
         return NewsAppDatabase(appContext)
+    }
+
+    @Provides
+    @Singleton
+    fun provideUserPreference(@ApplicationContext appContext: Context): UserPreferenceRepository {
+        return UserPreferenceRepository(appContext)
     }
 
 

@@ -16,6 +16,13 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
     inner class NewsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
+    companion object {
+        private const val TYPE_NEWS = 0
+        private const val TYPE_LOADING = 1
+        private const val TYPE_COLLEAGUE = 2
+        private const val TYPE_HEADER = 3
+    }
+
     private val differCallback = object : DiffUtil.ItemCallback<Article>() {
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
             return oldItem.url == newItem.url
@@ -29,17 +36,27 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
     val differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
-        return NewsViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_news_layout,
-                parent,
-                false
-            )
-        )
+
+        val layout = when(viewType){
+            TYPE_NEWS -> R.layout.item_news_layout
+            TYPE_LOADING -> R.layout.item_loading_layout
+            else -> throw IllegalArgumentException("Invalid view type")
+        }
+
+        val view = LayoutInflater
+            .from(parent.context)
+            .inflate(layout, parent, false)
+
+
+        return NewsViewHolder(view)
     }
 
     override fun getItemCount(): Int {
         return differ.currentList.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return TYPE_NEWS
     }
 
     private var onItemClickListener: ((Article) -> Unit)? = null
