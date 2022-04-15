@@ -40,6 +40,26 @@ android {
     dataBinding {
         enabled = true
     }
+
+    buildTypes {
+        debug {
+            versionNameSuffix ".dev"
+            debuggable true
+        }
+        release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        minifiedDebug {
+            versionNameSuffix ".dev"
+            debuggable true
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
 }
 
 dependencies {
