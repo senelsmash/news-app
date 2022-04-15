@@ -1,20 +1,13 @@
 package com.eyepax.newsapp.ui.auth
 
 import android.util.Log
-import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
-import com.eyepax.newsapp.UserPreferences
 import com.eyepax.newsapp.model.User
 import com.eyepax.newsapp.repository.AuthRepository
 import com.eyepax.newsapp.repository.UserPreferenceRepository
-import com.eyepax.newsapp.ui.AuthActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.scopes.ViewModelScoped
-import kotlinx.android.synthetic.main.fragment_login.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch

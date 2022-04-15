@@ -7,16 +7,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.eyepax.newsapp.R
-import com.eyepax.newsapp.UserPreferences
 import com.eyepax.newsapp.ui.AuthActivity
 import kotlinx.android.synthetic.main.fragment_login.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment(R.layout.fragment_login) {
     private val mViewModel by lazy {
@@ -33,7 +27,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private fun subscriberObservers() {
         mViewModel.userData.observe(
             viewLifecycleOwner, Observer {
-                if(!it?.username.isNullOrEmpty()){
+                if (!it?.username.isNullOrEmpty()) {
                     (activity as AuthActivity).startDashboardActivity()
                 }
             }
@@ -63,7 +57,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 if (user.isNotEmpty()) {
                     Log.d(TAG, "LOGIN: user exist")
                     mViewModel.setUser(user[0])
-                    (activity as AuthActivity).startDashboardActivity()
+                    redirectIfAlreadyLoggedIn()
                 } else {
                     showMessage("Invalid credentials")
                     Log.d(TAG, "LOGIN: user doesn't exist")

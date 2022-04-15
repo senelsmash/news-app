@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.eyepax.newsapp.R
+import com.eyepax.newsapp.ui.MainActivity
 import com.eyepax.newsapp.ui.adapter.NewsAdapter
 import kotlinx.android.synthetic.main.fragment_favorite.*
 
@@ -46,6 +47,16 @@ class FavoriteFragment : Fragment(R.layout.fragment_favorite) {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as MainActivity).showBottomNavigation(false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).showBottomNavigation(true)
     }
 
     companion object {

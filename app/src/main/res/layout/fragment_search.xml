@@ -24,16 +24,20 @@
         app:layout_constraintEnd_toStartOf="@id/tvSearchText"
         app:layout_constraintTop_toBottomOf="@id/etSearchView"
         android:layout_width="wrap_content"
+        android:textSize="@dimen/text_small"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/nunito_regular"
         android:layout_marginTop="@dimen/padding_medium"
         android:text="About 11,000 results for "/>
     <TextView
+        android:textSize="@dimen/text_small"
         android:layout_marginTop="@dimen/padding_medium"
         app:layout_constraintTop_toBottomOf="@id/etSearchView"
         app:layout_constraintStart_toEndOf="@id/tvSearchCount"
         app:layout_constraintEnd_toEndOf="parent"
         android:id="@+id/tvSearchText"
         android:layout_width="0dp"
+        android:fontFamily="@font/nunito_semi_bold"
         android:layout_height="wrap_content"
         android:text="Covid variant"/>
 

@@ -36,7 +36,7 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
         btnLogout.setOnClickListener {
             if (it != null) {
                 mViewModel.logoutUser(user)
-
+                Log.d(TAG, "onViewCreated: User logout")
                 startActivity(Intent(activity, AuthActivity::class.java))
                 (activity as MainActivity).finish()
             }
@@ -56,6 +56,16 @@ class ProfileFragment : Fragment(R.layout.fragment_profile) {
                 tvEmail.text = it?.emailAddress
             }
         )
+    }
+
+    override fun onPause() {
+        super.onPause()
+        (activity as MainActivity).showBottomNavigation(false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as MainActivity).showBottomNavigation(true)
     }
 
     companion object {

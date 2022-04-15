@@ -78,9 +78,24 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
 
         searchViewWidget.isFocusable = false
         searchViewContainer.setOnClickListener {
+            val bundle = Bundle().apply {
+                putSerializable("search", "search")
+            }
             findNavController().navigate(
-                R.id.action_navigation_dashboard_to_searchFragment
+                R.id.action_navigation_dashboard_to_searchFragment,
+                bundle
             )
+        }
+
+        tvSeeAll.setOnClickListener {
+            val bundle = Bundle().apply {
+                putSerializable("search", "headline")
+            }
+            findNavController().navigate(
+                R.id.action_navigation_dashboard_to_searchFragment,
+                bundle
+            )
+
         }
     }
 
@@ -133,7 +148,7 @@ class DashboardFragment : Fragment(R.layout.fragment_dashboard) {
             if (v != null) {
                 if (scrollY + v.measuredHeight == v.getChildAt(0).measuredHeight) {
 
-                    if (!isApiRequest){
+                    if (!isApiRequest) {
 
                         Log.d(TAG, "setOnScrollChangeListener: $scrollY")
 
