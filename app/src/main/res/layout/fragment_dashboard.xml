@@ -78,6 +78,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/linearLayoutCompat">
@@ -98,6 +99,20 @@
                 android:fontFamily="@font/playfair_display_bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvSeeAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_low"
+                android:text="@string/see_more"
+                android:textAlignment="textStart"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_small"
+                android:fontFamily="@font/nunito"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/tvLatestNews"
+                app:layout_constraintTop_toTopOf="@+id/tvLatestNews" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTopHeadlines"

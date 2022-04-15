@@ -1,27 +1,19 @@
 package com.eyepax.newsapp.ui.auth
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.eyepax.newsapp.AppConstant
 import com.eyepax.newsapp.R
 import com.eyepax.newsapp.UserPreferences
 import com.eyepax.newsapp.model.User
 import com.eyepax.newsapp.ui.AuthActivity
-import com.eyepax.newsapp.ui.MainActivity
-import kotlinx.android.synthetic.main.fragment_login.*
 import kotlinx.android.synthetic.main.fragment_login.btnRegister
 import kotlinx.android.synthetic.main.fragment_register.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class RegisterFragment : Fragment(R.layout.fragment_register) {
     private val mViewModel by lazy {
@@ -48,9 +40,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         mViewModel.registerUserId.observe(viewLifecycleOwner, Observer { userId ->
             if (userId != 0L) {
                 mUser.id = userId?.toInt()
-                lifecycleScope.launch(Dispatchers.IO) {
-                    dataStoreManager.saveToDataStore(mUser)
-                }.cancel()
+                mViewModel.setUser(mUser)
                 (activity as AuthActivity).startDashboardActivity()
                 Log.d(TAG, "subscribeObservers: user insert id is: $userId")
             } else {
@@ -81,7 +71,12 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
     }
 
     private fun isValidInput(
-        username: String, firstName: String, lastName: String, password: String, passwordConfirmation: String, email: String
+        username: String,
+        firstName: String,
+        lastName: String,
+        password: String,
+        passwordConfirmation: String,
+        email: String
     ): Boolean {
         if (username.isNotEmpty() && firstName.isNotEmpty() && lastName.isNotEmpty()
             && password.isNotEmpty() && email.isNotEmpty() && passwordConfirmation.isNotEmpty()
@@ -104,7 +99,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
         }
     }
 
-    fun showMessage(message:String) {
+    fun showMessage(message: String) {
         Toast.makeText(
             requireContext(),
             "Please enter all fields",

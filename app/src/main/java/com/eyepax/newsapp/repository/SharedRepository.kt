@@ -9,8 +9,8 @@ class SharedRepository @Inject constructor(
     private val newsApi: NewsApiService
 ) {
 
-    suspend fun getTopHeadlines(countryCode: String) =
-        newsApi.getTopHeadlines(countryCode)
+    suspend fun getTopHeadlines(countryCode: String, page: Int = 1) =
+        newsApi.getTopHeadlines(countryCode = countryCode, pageSize = QUERY_PAGE_SIZE, pageNumber = page)
 
     fun getFilterList(): MutableList<Filter> {
         val filterList: MutableList<Filter> = emptyArray<Filter>().toMutableList()

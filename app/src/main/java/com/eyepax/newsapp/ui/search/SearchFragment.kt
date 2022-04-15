@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.eyepax.newsapp.AppConstant
@@ -19,6 +20,7 @@ import com.eyepax.newsapp.R
 import com.eyepax.newsapp.ui.adapter.FilterAdapter
 import com.eyepax.newsapp.ui.adapter.NewsAdapter
 import com.eyepax.newsapp.ui.dashboard.DashboardFragment
+import com.eyepax.newsapp.ui.detail.NewsDetailFragmentArgs
 import com.eyepax.newsapp.utils.Resource
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.chip.Chip
@@ -32,10 +34,12 @@ import kotlinx.coroutines.launch
 class SearchFragment : Fragment(R.layout.fragment_search) {
     private lateinit var newsAdapter: NewsAdapter
     private lateinit var filterAdapter: FilterAdapter
+    private val args: SearchFragmentArgs by navArgs()
     private var searchJob: Job? = null
     private var mSearchedQuery = ""
     private var mSearchedText = ""
     private var mSelectedFilter = ""
+    var searchType = ""
     private var mSelectedFilterMap: HashMap<String, Int> = HashMap()
     private val mViewModel by lazy {
         ViewModelProvider(requireActivity()).get(SearchViewModel::class.java)
@@ -43,14 +47,33 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mViewModel.getFilterList()
-        mViewModel.getFilteredList("Healthy")
-        mSearchedQuery = "Healthy"
-        mSearchedText = mSearchedQuery
+        searchType = args.search
+        initView(searchType)
         setupRecyclerView()
         subscriberObservers()
         clickEvents()
         searchListener()
+    }
+
+    private fun initView(searchType: String) {
+        if(searchType == SEARCH_TYPE) {
+            mViewModel.getFilterList()
+            mViewModel.getFilteredList("Healthy")
+            mSearchedQuery = "Healthy"
+            mSearchedText = mSearchedQuery
+            rvFilter.visibility = View.VISIBLE
+            tvFilter.visibility = View.VISIBLE
+            tvSearchCount.visibility = View.VISIBLE
+            tvSearchText.visibility = View.VISIBLE
+            etSearchView.visibility = View.VISIBLE
+        } else if(searchType == HEADLINE_TYPE) {
+            mViewModel.getTopHeadlines(COUNTRY_CODE)
+            rvFilter.visibility = View.GONE
+            tvFilter.visibility = View.GONE
+            tvSearchCount.visibility = View.GONE
+            tvSearchText.visibility = View.GONE
+            etSearchView.visibility = View.GONE
+        }
     }
 
     private fun showErrorMessage(message: String) {
@@ -94,8 +117,18 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 isNoErrors && isNotLoadingAndNotLastPage && isAtLastItem && isNotAtBeginning &&
                         isTotalMoreThanVisible && isScrolling
             if (shouldPaginate) {
-                mViewModel.getFilteredList(mSearchedText)
-                isScrolling = false
+                when(searchType){
+                    SEARCH_TYPE -> {
+                        mViewModel.getFilteredList(mSearchedText)
+                        isScrolling = false
+                    }
+
+                    HEADLINE_TYPE -> {
+                        mViewModel.getTopHeadlines(COUNTRY_CODE)
+                        isScrolling = false
+                    }
+                }
+
             }
         }
 
@@ -260,5 +293,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     companion object {
         const val TAG = "SearchFragment"
+        const val SEARCH_TYPE = "search"
+        const val HEADLINE_TYPE = "headline"
+        const val COUNTRY_CODE = "us"
     }
 }

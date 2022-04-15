@@ -55,6 +55,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/frameLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:singleLine="true"
                     android:id="@+id/etUserName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -79,6 +80,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tiUsername">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:singleLine="true"
                     android:id="@+id/etFirstname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -104,6 +106,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etLastname"
+                    android:singleLine="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_filter_white"
@@ -128,6 +131,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPasswordReg"
+                    android:singleLine="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_filter_white"
@@ -153,6 +157,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etRetypePassword"
+                    android:singleLine="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_filter_white"
@@ -178,6 +183,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etEmail"
+                    android:singleLine="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_filter_white"

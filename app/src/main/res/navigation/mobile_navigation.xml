@@ -50,5 +50,8 @@
         <action
             android:id="@+id/action_searchFragment_to_newsDetailFragment"
             app:destination="@id/newsDetailFragment" />
+        <argument
+            android:name="search"
+            app:argType="string" />
     </fragment>
 </navigation>

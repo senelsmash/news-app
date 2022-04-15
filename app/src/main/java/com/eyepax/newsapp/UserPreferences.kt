@@ -10,6 +10,7 @@ import com.eyepax.newsapp.AppConstant.Companion.USER_DATASTORE
 import com.eyepax.newsapp.model.User
 import kotlinx.coroutines.flow.map
 
+
 class UserPreferences(
     val context: Context,
 ) {

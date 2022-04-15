@@ -36,6 +36,18 @@ class SearchViewModel @Inject constructor(
         filterList.postValue(list)
     }
 
+    fun getTopHeadlines(countryCode: String, pageNumber: Int = 1) {
+        viewModelScope.launch {
+            safeTopHeadlinesCall(countryCode, pageNumber)
+        }
+    }
+
+    private suspend fun safeTopHeadlinesCall(countryCode: String, pageNumber: Int) {
+        filterNews.postValue(Resource.Loading())
+        val response = repository.getTopHeadlines(countryCode)
+        filterNews.postValue(requestFilterResponse(response))
+    }
+
     private suspend fun safeFilterNews(searchQuery: String, sortBy: String, pageNumber: Int) {
         filterNews.postValue(Resource.Loading())
         val response = repository.getFilterNews(
@@ -43,6 +55,7 @@ class SearchViewModel @Inject constructor(
         )
         filterNews.postValue(requestFilterResponse(response))
     }
+
 
     private fun requestFilterResponse(response: Response<NewsResponse>): Resource<NewsResponse> {
         if (response.isSuccessful) {

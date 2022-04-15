@@ -8,6 +8,7 @@
     tools:context=".ui.profile.ProfileFragment">
 
     <androidx.cardview.widget.CardView
+        android:layout_marginTop="@dimen/padding"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@color/territory"
         app:cardCornerRadius="8dp"
@@ -20,15 +21,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <TextView
+                android:fontFamily="@font/nunito_semi_bold"
+                android:textSize="@dimen/text_medium"
                 android:layout_marginTop="@dimen/padding_medium"
                 app:layout_constraintTop_toTopOf="parent"
                 android:id="@+id/tvLblFirstName"
                 android:textColor="@color/text_black"
-                android:textSize="@dimen/text_small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/first_name"/>
             <TextView
+                android:fontFamily="@font/nunito_regular"
                 app:layout_constraintTop_toBottomOf="@id/tvLblFirstName"
                 android:id="@+id/tvFirstName"
                 android:textColor="@color/text_black"
@@ -38,15 +41,17 @@
                 android:text="@string/first_name"/>
 
             <TextView
+                android:fontFamily="@font/nunito_semi_bold"
                 android:layout_marginTop="@dimen/padding_medium"
                 app:layout_constraintTop_toBottomOf="@+id/tvFirstName"
                 android:id="@+id/tvLblLastName"
                 android:textColor="@color/text_black"
-                android:textSize="@dimen/text_small"
+                android:textSize="@dimen/text_medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/last_name"/>
             <TextView
+                android:fontFamily="@font/nunito_regular"
                 app:layout_constraintTop_toBottomOf="@id/tvLblLastName"
                 android:id="@+id/tvLastName"
                 android:textColor="@color/text_black"
@@ -56,15 +61,17 @@
                 android:text="@string/first_name"/>
 
             <TextView
+                android:fontFamily="@font/nunito_semi_bold"
                 android:layout_marginTop="@dimen/padding_medium"
                 app:layout_constraintTop_toBottomOf="@+id/tvLastName"
                 android:id="@+id/tvLblUsername"
                 android:textColor="@color/text_black"
-                android:textSize="@dimen/text_small"
+                android:textSize="@dimen/text_medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/username"/>
             <TextView
+                android:fontFamily="@font/nunito_regular"
                 app:layout_constraintTop_toBottomOf="@id/tvLblUsername"
                 android:id="@+id/tvUsername"
                 android:textColor="@color/text_black"
@@ -75,15 +82,17 @@
 
 
             <TextView
+                android:fontFamily="@font/nunito_semi_bold"
                 android:layout_marginTop="@dimen/padding_medium"
                 app:layout_constraintTop_toBottomOf="@+id/tvUsername"
                 android:id="@+id/tvlblEmail"
                 android:textColor="@color/text_black"
-                android:textSize="@dimen/text_small"
+                android:textSize="@dimen/text_medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/email_address"/>
             <TextView
+                android:fontFamily="@font/nunito_regular"
                 app:layout_constraintTop_toBottomOf="@id/tvlblEmail"
                 android:id="@+id/tvEmail"
                 android:textColor="@color/text_black"
@@ -95,4 +104,13 @@
 
 
     </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLogout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_edit_text"
+        android:text="@string/logout"
+        android:layout_marginTop="@dimen/text_medium"
+        app:layout_constraintTop_toBottomOf="@id/cardProfile" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
