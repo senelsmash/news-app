@@ -24,6 +24,8 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <EditText
+            android:singleLine="true"
+            android:fontFamily="@font/nunito_regular"
             android:maxLines="1"
             android:id="@+id/etUsername"
             android:layout_width="match_parent"
@@ -36,6 +38,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
+            android:singleLine="true"
+            android:fontFamily="@font/nunito_regular"
             android:id="@+id/etPassword"
             android:maxLines="1"
             android:layout_width="match_parent"
